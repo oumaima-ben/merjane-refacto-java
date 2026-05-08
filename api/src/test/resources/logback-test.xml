@@ -2,6 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml" />
     <logger name="org.springframework" level="error"/>
+    <logger name="com.nimbleways.springboilerplate.exceptions.GlobalExceptionHandler" level="off"/>
 
 	<appender name="static-appender" class="com.nimbleways.springboilerplate.utils.StaticLogbackAppender" />
 	<root level="info">
