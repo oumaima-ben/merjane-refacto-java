@@ -15,6 +15,24 @@ services/ProductTypeHandler            strategy interface
 exceptions/                            custom exception + ErrorResponse advice
 ```
 
+## Trying the API manually
+
+Run with the `dev` profile to seed sample products and an order with id `1`:
+
+```
+cd api
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Then either curl it:
+
+```
+curl -X POST http://localhost:8080/api/orders/1/processOrder
+```
+
+…or open [`api/requests.http`](api/requests.http) in IntelliJ / VS Code REST Client
+to try the happy path and every error case in one click.
+
 ## Notes
 
 - Classes marked `// WARN` were left untouched as required.

@@ -1,0 +1,18 @@
+### Happy path — seeded order id = 1, every product type covered
+POST http://localhost:8080/api/orders/1/processOrder
+Content-Type: application/json
+
+### Order not found -> 404
+POST http://localhost:8080/api/orders/999/processOrder
+Content-Type: application/json
+
+### Negative id -> 400 (path variable validation)
+POST http://localhost:8080/api/orders/-1/processOrder
+Content-Type: application/json
+
+### Non-numeric id -> 400 (type mismatch)
+POST http://localhost:8080/api/orders/abc/processOrder
+Content-Type: application/json
+
+### Wrong HTTP method -> 405
+GET http://localhost:8080/api/orders/1/processOrder

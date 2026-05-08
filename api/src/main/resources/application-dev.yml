@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:db/seed.sql
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
