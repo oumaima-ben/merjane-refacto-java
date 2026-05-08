@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.implementations.NotificationService;
@@ -67,5 +68,21 @@ class NormalProductHandlerTest {
 
         assertEquals(0, product.getAvailable());
         verifyNoInteractions(notificationService);
+    }
+
+    @Test
+    void checkAvailability_returnsAvailable_whenInStock() {
+        Product product = Product.builder()
+                .available(5).type(ProductType.NORMAL).name("USB Cable").build();
+
+        assertEquals(AvailabilityReason.AVAILABLE, handler.checkAvailability(product));
+    }
+
+    @Test
+    void checkAvailability_returnsOutOfStock_whenZero() {
+        Product product = Product.builder()
+                .available(0).type(ProductType.NORMAL).name("USB Dongle").build();
+
+        assertEquals(AvailabilityReason.OUT_OF_STOCK, handler.checkAvailability(product));
     }
 }

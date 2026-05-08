@@ -1,6 +1,6 @@
 package com.nimbleways.springboilerplate.exceptions;
 
-public class OrderNotFoundException extends RuntimeException {
+public class OrderNotFoundException extends NotFoundException {
     public OrderNotFoundException(Long orderId) {
         super("Order not found: " + orderId);
     }

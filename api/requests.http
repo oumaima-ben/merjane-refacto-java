@@ -16,3 +16,24 @@ Content-Type: application/json
 
 ### Wrong HTTP method -> 405
 GET http://localhost:8080/api/orders/1/processOrder
+
+### Product availability — NORMAL in stock (id=1)
+GET http://localhost:8080/api/products/1/availability
+
+### Product availability — NORMAL out of stock (id=2)
+GET http://localhost:8080/api/products/2/availability
+
+### Product availability — EXPIRABLE in date (id=3)
+GET http://localhost:8080/api/products/3/availability
+
+### Product availability — EXPIRABLE expired (id=4)
+GET http://localhost:8080/api/products/4/availability
+
+### Product availability — SEASONAL in season (id=5)
+GET http://localhost:8080/api/products/5/availability
+
+### Product availability — SEASONAL out of season (id=6)
+GET http://localhost:8080/api/products/6/availability
+
+### Product not found -> 404
+GET http://localhost:8080/api/products/999/availability

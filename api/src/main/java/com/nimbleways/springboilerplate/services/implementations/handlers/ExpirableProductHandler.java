@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.ProductTypeHandler;
@@ -28,6 +29,16 @@ public class ExpirableProductHandler implements ProductTypeHandler {
         }
         notificationService.sendExpirationNotification(product.getName(), product.getExpiryDate());
         product.setAvailable(0);
+    }
+
+    @Override
+    public AvailabilityReason checkAvailability(Product product) {
+        if (!product.getExpiryDate().isAfter(LocalDate.now())) {
+            return AvailabilityReason.EXPIRED;
+        }
+        return product.getAvailable() > 0
+                ? AvailabilityReason.AVAILABLE
+                : AvailabilityReason.OUT_OF_STOCK;
     }
 
     private boolean isSellable(Product product) {

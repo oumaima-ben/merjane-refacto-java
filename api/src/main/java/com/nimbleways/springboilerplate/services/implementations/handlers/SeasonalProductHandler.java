@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.ProductTypeHandler;
@@ -28,6 +29,16 @@ public class SeasonalProductHandler implements ProductTypeHandler {
             return;
         }
         handleSeasonalShortage(product, today);
+    }
+
+    @Override
+    public AvailabilityReason checkAvailability(Product product) {
+        if (!isInSeason(product, LocalDate.now())) {
+            return AvailabilityReason.OUT_OF_SEASON;
+        }
+        return product.getAvailable() > 0
+                ? AvailabilityReason.AVAILABLE
+                : AvailabilityReason.OUT_OF_STOCK;
     }
 
     private boolean isInSeason(Product product, LocalDate today) {

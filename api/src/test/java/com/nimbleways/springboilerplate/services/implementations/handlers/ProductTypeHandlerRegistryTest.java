@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.ProductTypeHandler;
@@ -47,6 +48,11 @@ class ProductTypeHandlerRegistryTest {
 
         @Override
         public void process(Product product) {
+        }
+
+        @Override
+        public AvailabilityReason checkAvailability(Product product) {
+            return AvailabilityReason.AVAILABLE;
         }
     }
 }

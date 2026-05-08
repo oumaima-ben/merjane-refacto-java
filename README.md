@@ -45,6 +45,7 @@ returned the expected status with a structured JSON body:
 | Negative id (validation)       | POST   | `/api/orders/-1/processOrder`   | 400    |
 | Non-numeric id (type mismatch) | POST   | `/api/orders/abc/processOrder`  | 400    |
 | Wrong HTTP method              | GET    | `/api/orders/1/processOrder`    | 405    |
+| Product availability check     | GET    | `/api/products/{id}/availability` | 200  |
 
 Example response body for the type-mismatch case:
 

@@ -38,7 +38,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void orderNotFound_mapsTo404() {
-        ResponseEntity<ErrorResponse> response = handler.handleOrderNotFound(
+        ResponseEntity<ErrorResponse> response = handler.handleNotFound(
                 new OrderNotFoundException(42L), request);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

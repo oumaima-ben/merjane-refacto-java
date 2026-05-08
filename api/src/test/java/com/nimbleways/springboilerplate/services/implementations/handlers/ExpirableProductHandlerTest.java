@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.implementations.NotificationService;
@@ -75,5 +76,35 @@ class ExpirableProductHandlerTest {
 
         assertEquals(0, product.getAvailable());
         verify(notificationService).sendExpirationNotification("Yogurt", expiry);
+    }
+
+    @Test
+    void checkAvailability_returnsAvailable_whenInStockAndNotExpired() {
+        Product product = Product.builder()
+                .available(10).type(ProductType.EXPIRABLE).name("Butter")
+                .expiryDate(LocalDate.now().plusDays(26))
+                .build();
+
+        assertEquals(AvailabilityReason.AVAILABLE, handler.checkAvailability(product));
+    }
+
+    @Test
+    void checkAvailability_returnsExpired_whenPastExpiry() {
+        Product product = Product.builder()
+                .available(6).type(ProductType.EXPIRABLE).name("Milk")
+                .expiryDate(LocalDate.now().minusDays(2))
+                .build();
+
+        assertEquals(AvailabilityReason.EXPIRED, handler.checkAvailability(product));
+    }
+
+    @Test
+    void checkAvailability_returnsOutOfStock_whenEmptyButNotExpired() {
+        Product product = Product.builder()
+                .available(0).type(ProductType.EXPIRABLE).name("Yogurt")
+                .expiryDate(LocalDate.now().plusDays(15))
+                .build();
+
+        assertEquals(AvailabilityReason.OUT_OF_STOCK, handler.checkAvailability(product));
     }
 }

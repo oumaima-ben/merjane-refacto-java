@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 
@@ -19,4 +20,10 @@ public interface ProductTypeHandler {
      * The product is mutated in place; persistence is the caller's job.
      */
     void process(Product product);
+
+    /**
+     * Tell whether the product is currently available for sale,
+     * applying the type-specific rule (stock, season, expiry).
+     */
+    AvailabilityReason checkAvailability(Product product);
 }

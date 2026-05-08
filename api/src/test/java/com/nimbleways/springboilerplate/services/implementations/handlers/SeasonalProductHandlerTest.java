@@ -1,5 +1,6 @@
 package com.nimbleways.springboilerplate.services.implementations.handlers;
 
+import com.nimbleways.springboilerplate.dto.product.AvailabilityReason;
 import com.nimbleways.springboilerplate.entities.Product;
 import com.nimbleways.springboilerplate.entities.ProductType;
 import com.nimbleways.springboilerplate.services.implementations.NotificationService;
@@ -108,5 +109,41 @@ class SeasonalProductHandlerTest {
 
         assertEquals(0, product.getAvailable());
         verify(notificationService).sendOutOfStockNotification("Watermelon");
+    }
+
+    @Test
+    void checkAvailability_returnsAvailable_whenInSeasonAndInStock() {
+        LocalDate today = LocalDate.now();
+        Product product = Product.builder()
+                .available(10).type(ProductType.SEASONAL).name("Watermelon")
+                .seasonStartDate(today.minusDays(2))
+                .seasonEndDate(today.plusDays(58))
+                .build();
+
+        assertEquals(AvailabilityReason.AVAILABLE, handler.checkAvailability(product));
+    }
+
+    @Test
+    void checkAvailability_returnsOutOfStock_whenInSeasonButEmpty() {
+        LocalDate today = LocalDate.now();
+        Product product = Product.builder()
+                .available(0).type(ProductType.SEASONAL).name("Watermelon")
+                .seasonStartDate(today.minusDays(2))
+                .seasonEndDate(today.plusDays(58))
+                .build();
+
+        assertEquals(AvailabilityReason.OUT_OF_STOCK, handler.checkAvailability(product));
+    }
+
+    @Test
+    void checkAvailability_returnsOutOfSeason_whenBeforeSeason() {
+        LocalDate today = LocalDate.now();
+        Product product = Product.builder()
+                .available(30).type(ProductType.SEASONAL).name("Grapes")
+                .seasonStartDate(today.plusDays(180))
+                .seasonEndDate(today.plusDays(240))
+                .build();
+
+        assertEquals(AvailabilityReason.OUT_OF_SEASON, handler.checkAvailability(product));
     }
 }
