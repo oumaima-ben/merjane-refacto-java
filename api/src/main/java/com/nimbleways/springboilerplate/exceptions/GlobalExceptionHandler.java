@@ -41,6 +41,8 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.METHOD_NOT_ALLOWED, ex.getMessage(), request);
     }
 
+    // Catch-all for anything not matched above. Stack is logged server-side,
+    // the client only ever sees a sanitized 500 body.
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex, HttpServletRequest request) {
         log.error("Unhandled exception while processing {}", request.getRequestURI(), ex);

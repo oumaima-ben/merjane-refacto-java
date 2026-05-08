@@ -35,6 +35,9 @@ public class SeasonalProductHandler implements ProductTypeHandler {
                 && today.isBefore(product.getSeasonEndDate());
     }
 
+    // Order matters: lead-time-overruns-season must zero the stock first;
+    // before-season is a pure notification; otherwise we're mid-season but
+    // out of stock and only announce the delay.
     private void handleSeasonalShortage(Product product, LocalDate today) {
         if (today.plusDays(product.getLeadTime()).isAfter(product.getSeasonEndDate())) {
             notificationService.sendOutOfStockNotification(product.getName());
