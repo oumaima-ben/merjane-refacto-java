@@ -33,6 +33,31 @@ curl -X POST http://localhost:8080/api/orders/1/processOrder
 …or open [`api/requests.http`](api/requests.http) in IntelliJ / VS Code REST Client
 to try the happy path and every error case in one click.
 
+### What I got back
+
+Ran every request from `requests.http` against the running app — each one
+returned the expected status with a structured JSON body:
+
+| Scenario                       | Method | Path                            | Status |
+|--------------------------------|--------|---------------------------------|--------|
+| Happy path (seeded order)      | POST   | `/api/orders/1/processOrder`    | 200    |
+| Order not found                | POST   | `/api/orders/999/processOrder`  | 404    |
+| Negative id (validation)       | POST   | `/api/orders/-1/processOrder`   | 400    |
+| Non-numeric id (type mismatch) | POST   | `/api/orders/abc/processOrder`  | 400    |
+| Wrong HTTP method              | GET    | `/api/orders/1/processOrder`    | 405    |
+
+Example response body for the type-mismatch case:
+
+```json
+{
+  "timestamp": "2026-05-08T16:36:50.746768Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Invalid value for parameter 'orderId': abc",
+  "path": "/api/orders/abc/processOrder"
+}
+```
+
 ## Notes
 
 - Classes marked `// WARN` were left untouched as required.
